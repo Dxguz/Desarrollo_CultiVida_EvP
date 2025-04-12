@@ -1,5 +1,7 @@
-// backend/controllers/agricultorController.js (simulado para Netlify Function)
-const agricultores = []; // Simulación de una base de datos en memoria
+const agricultores = [
+    { cedula: '123', nombre: 'Angelica', email: 'angelica@gmail.com', tipoCultivo: 'Mora', municipio: 'Cucunubá' },
+    { cedula: '456', nombre: 'Carlos', email: 'carlos@yahoo.com', tipoCultivo: 'Papa', municipio: 'Ubaté' },
+];
 
 exports.handler = async (event, context) => {
     const { httpMethod, path, body } = event;
@@ -26,7 +28,7 @@ exports.handler = async (event, context) => {
                 agricultores.push(nuevoAgricultor);
                 return {
                     statusCode: 201,
-                    body: JSON.stringify({ message: 'Agricultor agregado correctamente' }),
+                    body: JSON.stringify({ message: 'Agricultor agregado correctamente', agricultor: nuevoAgricultor }),
                 };
             } catch (error) {
                 return {
@@ -61,11 +63,17 @@ exports.handler = async (event, context) => {
                 return { statusCode: 400, body: JSON.stringify({ message: 'Se requiere la cédula para eliminar' }) };
             }
             const initialLength = agricultores.length;
-            agricultores = agricultores.filter(a => a.cedula !== cedula);
-            return {
-                statusCode: agricultores.length < initialLength ? 200 : 404,
-                body: JSON.stringify({ message: agricultores.length < initialLength ? 'Agricultor eliminado correctamente' : 'Agricultor no encontrado' }),
-            };
+            const updatedAgricultores = agricultores.filter(a => a.cedula !== cedula);
+            if (updatedAgricultores.length < initialLength) {
+                agricultores.length = 0; // Limpiar el array original
+                agricultores.push(...updatedAgricultores); // Reemplazar con el array actualizado
+                return {
+                    statusCode: 200,
+                    body: JSON.stringify({ message: 'Agricultor eliminado correctamente' }),
+                };
+            } else {
+                return { statusCode: 404, body: JSON.stringify({ message: 'Agricultor no encontrado' }) };
+            }
         default:
             return {
                 statusCode: 405,

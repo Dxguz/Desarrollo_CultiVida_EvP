@@ -9,15 +9,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const API_URL = '/.netlify/functions/agricultores';
 
+    // **AGREGAR DATOS (POST)**
+
     agregarForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        console.log('Formulario de agregar enviado');
         const formData = new FormData(agregarForm);
         const data = Object.fromEntries(formData);
 
-        // **AGREGAR DATOS (POST)**
         try {
             const response = await fetch(API_URL, {
-                method: 'POST', // Método HTTP POST para enviar datos para crear un nuevo recurso
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -37,14 +39,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // **CONSULTAR DATOS (GET)**
+
     consultarForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        console.log('Formulario de consulta enviado');
         const cedula = document.getElementById('cedulaConsultar').value;
 
-        // **CONSULTAR DATOS (GET)**
         try {
             const response = await fetch(`${API_URL}/${cedula}`, {
-                method: 'GET', // Método HTTP GET para solicitar datos de un recurso específico
+                method: 'GET',
             });
 
             if (response.ok) {
@@ -62,12 +66,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // **ACTUALIZAR DATOS (PUT)**
+
     actualizarForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        console.log('Formulario de actualización enviado');
         const cedulaActualizar = document.getElementById('cedulaActualizar').value;
         const formData = new FormData(actualizarForm);
         const data = Object.fromEntries(formData);
-
         delete data.cedulaActualizar;
         const datosActualizar = Object.fromEntries(Object.entries(data).filter(([_, v]) => v !== ''));
 
@@ -76,10 +82,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // **ACTUALIZAR DATOS (PUT)**
         try {
             const response = await fetch(`${API_URL}/${cedulaActualizar}`, {
-                method: 'PUT', // Método HTTP PUT para enviar datos para modificar un recurso existente
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -102,14 +107,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // **ELIMINAR DATOS (DELETE)**
+
     eliminarForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        console.log('Formulario de eliminación enviado');
         const cedulaEliminar = document.getElementById('cedulaEliminar').value;
 
-        // **ELIMINAR DATOS (DELETE)**
         try {
             const response = await fetch(`${API_URL}/${cedulaEliminar}`, {
-                method: 'DELETE', // Método HTTP DELETE para solicitar la eliminación de un recurso específico
+                method: 'DELETE',
             });
 
             if (response.ok) {
