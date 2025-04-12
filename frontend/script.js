@@ -9,8 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const API_URL = '/.netlify/functions/agricultores';
 
-    // **AGREGAR DATOS (POST)**
-
     agregarForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         console.log('Formulario de agregar enviado');
@@ -39,8 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // **CONSULTAR DATOS (GET)**
-
     consultarForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         console.log('Formulario de consulta enviado');
@@ -65,8 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
             resultadoConsultaDiv.textContent = 'Ocurrió un error al consultar.';
         }
     });
-
-    // **ACTUALIZAR DATOS (PUT)**
 
     actualizarForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -106,8 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
             resultadoActualizacionDiv.textContent = 'Ocurrió un error al actualizar.';
         }
     });
-
-    // **ELIMINAR DATOS (DELETE)**
 
     eliminarForm.addEventListener('submit', async (e) => {
         e.preventDefault();
