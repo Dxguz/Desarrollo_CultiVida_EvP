@@ -53,6 +53,7 @@ exports.handler = async (event) => {
           body: JSON.stringify({ message: 'Agricultor actualizado correctamente' }),
         };
       } catch (error) {
+        console.error('Error al agregar agricultor en Firestore:', error);
         return {
           statusCode: 400,
           body: JSON.stringify({ message: 'Error al parsear el cuerpo de la solicitud' }),
