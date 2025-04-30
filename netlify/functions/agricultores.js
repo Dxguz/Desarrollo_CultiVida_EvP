@@ -19,20 +19,22 @@ exports.handler = async (event) => {
         return { statusCode: 200, body: JSON.stringify(agricultores) };
       }
 
-    case 'POST':
-      try {
-        const nuevoAgricultor = JSON.parse(body);
-        await db.collection('agricultores').doc(nuevoAgricultor.cedula).set(nuevoAgricultor);
-        return {
-          statusCode: 201,
-          body: JSON.stringify({ message: 'Agricultor agregado correctamente', agricultor: nuevoAgricultor }),
-        };
-      } catch (error) {
-        return {
-          statusCode: 400,
-          body: JSON.stringify({ message: 'Error al parsear el cuerpo de la solicitud' }),
-        };
-      }
+      case 'POST':
+        try {
+          const nuevoAgricultor = JSON.parse(body);
+          console.log('Datos recibidos para agregar:', nuevoAgricultor);
+          await db.collection('agricultores').doc(nuevoAgricultor.cedula).set(nuevoAgricultor);
+          return {
+            statusCode: 201,
+            body: JSON.stringify({ message: 'Agricultor agregado correctamente', agricultor: nuevoAgricultor }),
+          };
+        } catch (error) {
+          console.error('Error al agregar agricultor en Firestore:', error);
+          return {
+            statusCode: 400,
+            body: JSON.stringify({ message: 'Error al parsear el cuerpo de la solicitud' }),
+          };
+        }
 
     case 'PUT':
       if (!cedula) {
